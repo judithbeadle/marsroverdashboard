@@ -14,7 +14,7 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 
 // your API calls
 
-// example API call
+// apod
 app.get('/apod', async (req, res) => {
     try {
         let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
@@ -24,5 +24,40 @@ app.get('/apod', async (req, res) => {
         console.log('error:', err);
     }
 })
+
+// rover manifests data
+
+app.get('/manifests/spirit', async (req, res) => {
+    try {
+        let rover = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/spirit?api_key=${process.env.API_KEY}`)
+            .then(res => res.json())
+        res.send({ rover })
+    } catch (err) {
+        console.log('error:', err);
+    }
+})
+app.get('/manifests/opportunity', async (req, res) => {
+    try {
+        let rover = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/opportunity?api_key=${process.env.API_KEY}`)
+            .then(res => res.json())
+        res.send({ rover })
+    } catch (err) {
+        console.log('error:', err);
+    }
+})
+app.get('manifests/curiosity', async (req, res) => {
+    try {
+        let rover = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/curiosity?api_key=${process.env.API_KEY}`)
+            .then(res => res.json())
+        res.send({ rover })
+    } catch (err) {
+        console.log('error:', err);
+    }
+})
+
+
+
+// TODO rover photos
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
