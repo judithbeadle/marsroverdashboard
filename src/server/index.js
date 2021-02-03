@@ -45,7 +45,7 @@ app.get('/manifests/opportunity', async (req, res) => {
         console.log('error:', err);
     }
 })
-app.get('manifests/curiosity', async (req, res) => {
+app.get('/manifests/curiosity', async (req, res) => {
     try {
         let rover = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/curiosity?api_key=${process.env.API_KEY}`)
             .then(res => res.json())
