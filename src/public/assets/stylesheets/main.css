@@ -12,3 +12,59 @@ the visual design of this UI is up to you!
 There is a lot of awesome dashboard design inspiration out there.
 
 */
+
+html, body {
+  height: 100%;
+}
+
+#app {
+
+	/* dark colours: purple to magenta hues for bgs */
+  --color__purple: #4c0c3a;
+  --color__purple-dark: #2a012d;
+  --color__magenta: #681839;
+  --color__rust: #923131;
+
+  /* lighter saturated colours - Mars and highlight text */
+  --color__orange: #f46311;
+  --color__orange-light: #ffbf8b;
+  --color__butter: #ffd38d;
+
+  /* lighter desaturated colours */
+  --color__light-brown: #c8866d;
+  --color__beige: #ebd3b1;
+  --color__cream: #fdfdef;
+
+  /* assigning standard var names */
+  --color__black: var(--color__purple-dark);
+  --color__white: var(--color__cream);
+  --color__text-highlight: var(--color__orange-light);
+  --color__button-bg: var(--color__purple);
+
+  /* some constants for spacing */
+  --app__gutter: 5vw;
+}
+
+#app {
+	min-height: 100%;
+	background-color: var(--color__purple-dark);
+	color: var(--color__white);
+	font-family: 'Assistant', sans-serif;
+	display: flex;
+	flex-direction: column;
+}
+
+#app > * {
+	flex: 1;
+	padding: var(--app__gutter);
+	min-height: 100vh;
+}
+
+#dashboard {
+	position: sticky;
+}
+
+.app-title {
+	font-size: 14vw;
+	font-weight: 800;
+}
