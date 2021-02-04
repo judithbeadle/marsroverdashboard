@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500">
+  <linearGradient id="a" gradientUnits="userSpaceOnUse" x1="33.37" y1="124.913" x2="466.474" y2="374.966" gradientTransform="rotate(8.467 249.487 250.568)">
+    <stop offset="0" stop-color="#ffbf8b"/>
+    <stop offset=".392" stop-color="#f46311"/>
+    <stop offset="1" stop-color="#4c0c3a"/>
+  </linearGradient>
+
+  <circle cx="250" cy="250" fill="url(#a)" r="250"/>
+
+  <circle cx="250" cy="250" fill="#ce4205" r="250"/>
+
+  <defs>
+    <circle id="b" cx="250" cy="250" r="250"/>
+  </defs>
+
+  <clipPath id="c">
+    <use xlink:href="#b" overflow="visible"/>
+  </clipPath>
+
+  <g clip-path="url(#c)">
+    <defs>
+      <path id="d" d="M-750-250h2000V750H-750z"/>
+    </defs>
+    <clipPath id="e">
+      <use xlink:href="#d" overflow="visible"/>
+    </clipPath>
+    <g clip-path="url(#e)">
+      <image width="2000" height="1000" xlink:href="/assets/images/texture.gif" transform="translate(-750 -250)" overflow="visible"/>
+    </g>
+  </g>
+
+  <g>
+    <defs>
+      <circle id="f" cx="250" cy="250" r="250"/>
+    </defs>
+  </g>
+
+  <g>
+    <linearGradient id="g" gradientUnits="userSpaceOnUse" x1="33.478" y1="124.939" x2="466.582" y2="374.991" gradientTransform="rotate(8.467 249.487 250.568)">
+      <stop offset=".501" stop-color="#5f1635" stop-opacity="0"/>
+      <stop offset="1" stop-color="#4c0c3a"/>
+    </linearGradient>
+    <circle cx="250.1" cy="250" fill="url(#g)" r="250"/>
+  </g>
+  <g>
+    <linearGradient id="h" gradientUnits="userSpaceOnUse" x1="33.417" y1="124.948" x2="466.521" y2="375.001" gradientTransform="rotate(8.467 249.487 250.568)">
+      <stop offset="0" stop-color="#ffbf8b"/>
+      <stop offset=".535" stop-color="#feb47c" stop-opacity="0"/>
+    </linearGradient>
+    <circle cx="250" cy="250" fill="url(#h)" r="250"/>
+  </g>
+</svg>
