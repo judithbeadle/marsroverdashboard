@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:url(#SVGID_1_);}
+	.st1{fill:#CE4205;}
+	.st2{clip-path:url(#SVGID_3_);}
+	.st3{fill:url(#SVGID_8_);}
+	.st4{fill:url(#SVGID_9_);}
+</style>
+<g id="mars">
+	<g>
+
+			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="33.3702" y1="124.9132" x2="466.4738" y2="374.9657" gradientTransform="matrix(0.9891 0.1474 -0.1474 0.9891 39.6532 -34.0432)">
+			<stop  offset="0" style="stop-color:#FFBF8B"/>
+			<stop  offset="0.3921" style="stop-color:#F46311"/>
+			<stop  offset="1" style="stop-color:#4C0C3A"/>
+		</linearGradient>
+		<ellipse class="st0" cx="250" cy="250" rx="250" ry="250"/>
+		<ellipse class="st1" cx="250" cy="250" rx="250" ry="250"/>
+	</g>
+	<g>
+		<g>
+			<defs>
+				<circle id="SVGID_2_" cx="250" cy="250" r="250"/>
+			</defs>
+			<clipPath id="SVGID_3_">
+				<use xlink:href="#SVGID_2_"  style="overflow:visible;"/>
+			</clipPath>
+			<g id="surface.tif_6_" class="st2">
+				<defs>
+					<rect id="SVGID_4_" x="-750" y="-250" width="2000" height="1000"/>
+				</defs>
+				<clipPath id="SVGID_5_">
+					<use xlink:href="#SVGID_4_"  style="overflow:visible;"/>
+				</clipPath>
+				<g style="clip-path:url(#SVGID_5_);">
+
+						<image style="overflow:visible;" width="2000" height="1000" xlink:href="682DF896B96FB1.png"  transform="matrix(1 0 0 1 -750 -250)">
+					</image>
+				</g>
+			</g>
+		</g>
+		<g>
+			<defs>
+				<circle id="SVGID_6_" cx="250" cy="250" r="250"/>
+			</defs>
+			<clipPath id="SVGID_7_">
+				<use xlink:href="#SVGID_6_"  style="overflow:visible;"/>
+			</clipPath>
+		</g>
+	</g>
+	<g id="shade">
+
+			<linearGradient id="SVGID_8_" gradientUnits="userSpaceOnUse" x1="33.478" y1="124.939" x2="466.5817" y2="374.9915" gradientTransform="matrix(0.9891 0.1474 -0.1474 0.9891 39.6532 -34.0432)">
+			<stop  offset="0.5014" style="stop-color:#5F1635;stop-opacity:0"/>
+			<stop  offset="1" style="stop-color:#4C0C3A"/>
+		</linearGradient>
+		<ellipse class="st3" cx="250.1" cy="250" rx="250" ry="250"/>
+	</g>
+	<g id="light">
+
+			<linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="33.4173" y1="124.9481" x2="466.5209" y2="375.0006" gradientTransform="matrix(0.9891 0.1474 -0.1474 0.9891 39.6532 -34.0432)">
+			<stop  offset="0" style="stop-color:#FFBF8B"/>
+			<stop  offset="0.5354" style="stop-color:#FEB47C;stop-opacity:0"/>
+		</linearGradient>
+		<ellipse class="st4" cx="250" cy="250" rx="250" ry="250"/>
+	</g>
+</g>
+</svg>
