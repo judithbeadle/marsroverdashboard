@@ -15,7 +15,9 @@
 // holding states
 let store = {
     selectedRover : '',
-    roverInfo: '',
+    roverInfo : '',
+    gallery : '',
+    camera : 0,
 }
 
 // IIFE to create methods for grabbing things from the DOM and setting basics
@@ -55,17 +57,26 @@ const render = async (root, state) => {
 
 // create content
 const App = (state) => {
-    let { apod, selectedRover, roverInfo } = state
-    if(selectedRover){
-    	return `
+	let { selectedRover, roverInfo, gallery } = state
+	if(selectedRover){
+		return `
 
-        <div class="rover-data">
-        	<h2>
-            ${selectedRover}
-        	</h2>
-        	${roverWidget(roverInfo)}
-    `
-  }
+	    <div class="rover-data">
+	    	<h2>
+	        ${selectedRover}
+	    	</h2>
+	    	${roverWidget(roverInfo)}
+	    	<div class="gallery">
+	    		<h3>Cameras</h3>
+	    		${roverCams(roverInfo, gallery)}
+	    	</div>
+		`
+	}
+	else {
+		return `
+		<p>Pick a rover to start the mission!</p>
+	`
+	}
 }
 
 // listening for load event because page should load before any JS is called
@@ -78,32 +89,61 @@ window.addEventListener('load', () => {
 
 // Rover data display on widget
 const roverWidget = (roverInfo) => {
-		// TODO: check data matches selected rover
     // If the rover data object does not yet exist, request it again
     if (!roverInfo ) {
        getRoverInfo(store)
+       return 'loading...';
     } else {
-  		console.log(roverInfo);
+  		let rover = roverInfo.manifest;
+  		console.log(rover)
 	    // TODO get the different values and build up the html with those
 	    return (`
-	        <p>${roverInfo.name}</p>
-	        <p>${roverInfo.launch_date}</p>
-	        <p>${roverInfo.max_sol}</p>
+	        <p>${rover.name}</p>
+	        <p>${rover.launch_date}</p>
+	        <p>${rover.max_sol}</p>
 	    `)
     }
+}
 
+// Rover image galleries
+const roverCams = (roverInfo, gallery) => {
+	// If the rover data object does not yet exist, request it again
+    if (!roverInfo ) {
+       getRoverInfo(store)
+       return 'loading...';
+    } else {
+  		let rover = roverInfo[Object.keys(roverInfo)[0]];
+	    // TODO get the different values and build up the html with those
+	    if(!gallery) {
+	    	getGallery(store)
+	    	return 'loading gallery...';
+	    } else {
+	    	console.log(gallery.pics);
+	    	gallery.pics.latest_photos.map( photo => console.log(photo));
+	    	return (`
+	        <p>Most recent data aquired on: ${rover.max_date}</p>
+	    `);
+	    }
 
+    }
 }
 
 
 
 // ------------------------------------------------------  API CALLS
 
-// TODO get data into a better format
+const getGallery = (state) => {
+	let { selectedRover, roverInfo } = state
+	console.log('get Images for: ' + selectedRover);
+	fetch(`http://localhost:3000/${selectedRover}/photos`)
+        .then(res => res.json())
+        .then(gallery => updateStore(store, { gallery }))
+}
+
 const getRoverInfo = (state) => {
-    let { apod, selectedRover } = state
+    let { selectedRover } = state
     console.log('getData for: ' + selectedRover);
-    fetch(`http://localhost:3000/manifests/${selectedRover}`)
+    fetch(`http://localhost:3000/${selectedRover}`)
         .then(res => res.json())
         .then(roverInfo => updateStore(store, { roverInfo }))
 }

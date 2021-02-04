@@ -25,42 +25,34 @@ app.get('/apod', async (req, res) => {
     }
 })
 
-// rover manifests data
+// rover manifests and latest images
 
-app.get('/manifests/spirit', async (req, res) => {
-    try {
-        let rover = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/spirit?api_key=${process.env.API_KEY}`)
-            .then(res => res.json())
-            .then( rover => rover.photo_manifest)
-        res.send({ rover })
-    } catch (err) {
-        console.log('error:', err);
-    }
+const rovers = ['spirit', 'opportunity', 'curiosity'];
+
+
+rovers.forEach(rover => {
+    let latestSol = 0
+    app.get(`/${rover}`, async (req, res) => {
+        try {
+            let manifest = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${process.env.API_KEY}`)
+                .then(res => res.json())
+                .then( manifest => manifest.photo_manifest)
+            res.send({ manifest })
+        } catch (err) {
+            console.log('error:', err);
+        }
+    })
+    app.get(`/${rover}/photos`, async (req, res) => {
+        try {
+            let pics = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/latest_photos?api_key=${process.env.API_KEY}`)
+                .then(res => res.json())
+                //.then( pics => pics.photo_manifest)
+            res.send({ pics })
+        } catch (err) {
+            console.log('error:', err);
+        }
+    })
 })
-app.get('/manifests/opportunity', async (req, res) => {
-    try {
-        let rover = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/opportunity?api_key=${process.env.API_KEY}`)
-            .then(res => res.json())
-            .then( rover => rover.photo_manifest)
-        res.send({ rover })
-    } catch (err) {
-        console.log('error:', err);
-    }
-})
-app.get('/manifests/curiosity', async (req, res) => {
-    try {
-        let rover = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/curiosity?api_key=${process.env.API_KEY}`)
-            .then(res => res.json())
-            .then( rover => rover.photo_manifest)
-        res.send({ rover })
-    } catch (err) {
-        console.log('error:', err);
-    }
-})
-
-
-
-// TODO rover photos
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
