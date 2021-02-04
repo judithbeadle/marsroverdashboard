@@ -86,9 +86,9 @@ const roverWidget = (roverInfo) => {
   		console.log(roverInfo);
 	    // TODO get the different values and build up the html with those
 	    return (`
-	        <p>${roverInfo.rover.photo_manifest.name}</p>
-	        <p>${roverInfo.rover.photo_manifest.launch_date}</p>
-	        <p>${roverInfo.rover.photo_manifest.max_sol}</p>
+	        <p>${roverInfo.name}</p>
+	        <p>${roverInfo.launch_date}</p>
+	        <p>${roverInfo.max_sol}</p>
 	    `)
     }
 
