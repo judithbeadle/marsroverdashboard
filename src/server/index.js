@@ -7,6 +7,8 @@ const path = require('path')
 const app = express()
 const port = 3000
 
+const Immutable = require('immutable');
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -26,8 +28,7 @@ app.get('/apod', async (req, res) => {
 })
 
 // rover manifests and latest images
-
-const rovers = ['spirit', 'opportunity', 'curiosity'];
+const rovers = Immutable.List(['spirit', 'opportunity', 'curiosity']);
 
 
 rovers.forEach(rover => {
@@ -55,4 +56,4 @@ rovers.forEach(rover => {
 })
 
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Mars Dashboard app listening on port ${port}!`))

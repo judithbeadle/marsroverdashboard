@@ -14,6 +14,7 @@
 
 // holding states
 let store = {
+		rovers : Immutable.List(['spirit', 'opportunity', 'curiosity']),
     selectedRover : '',
     roverInfo : '',
     gallery : '',
@@ -21,7 +22,6 @@ let store = {
 }
 
 // IIFE to create methods for grabbing things from the DOM and setting basics
-
 const domData = (() => {
 	const dashboard = document.getElementById('dashboard');
 	const roverSelect = document.getElementById('roverSelect');
@@ -29,6 +29,15 @@ const domData = (() => {
 		//update store data when select value changes
 	   updateStore(store, { selectedRover: roverSelect.value, roverInfo : '' });
 	});
+	const createDropdown = () => {
+		store.rovers.forEach(rover => {
+			const option = document.createElement("option");
+			// capitalizing first letter from: https://masteringjs.io/tutorials/fundamentals/capitalize-first-letter
+			option.text = rover.charAt(0).toUpperCase() + rover.slice(1);
+			option.value = rover;
+			roverSelect.appendChild(option);
+		})
+	}
 
 	const getDashboard = () => {
 		return dashboard;
@@ -41,6 +50,7 @@ const domData = (() => {
 	return {
 		getDashboard : getDashboard,
 		getRoverSelect : getRoverSelect,
+		createDropdown : createDropdown,
 	}
 })();
 
@@ -51,7 +61,8 @@ const updateStore = (store, newState) => {
 }
 
 const render = async (root, state) => {
-    root.innerHTML = App(state)
+	domData.createDropdown(state)
+	root.innerHTML = App(state)
 }
 
 
