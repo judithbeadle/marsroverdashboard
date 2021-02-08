@@ -119,27 +119,23 @@ const roverWidget = (roverInfo) => {
 // Rover image galleries
 const roverCams = (roverInfo, gallery) => {
 	// If the rover data object does not yet exist, request it again
-    if (!roverInfo ) {
-       getRoverInfo(store)
-       return 'loading...';
+  if( !roverInfo ) {
+		getRoverInfo(store)
+		return 'loading...';
+	} else {
+		let rover = roverInfo[Object.keys(roverInfo)[0]];
+		// TODO get the different values and build up the html with those
+		if( !gallery ) {
+			getGallery(store)
+			return 'loading gallery...';
     } else {
-  		let rover = roverInfo[Object.keys(roverInfo)[0]];
-	    // TODO get the different values and build up the html with those
-	    if(!gallery) {
-	    	getGallery(store)
-	    	return 'loading gallery...';
-	    } else {
-	    	console.log(gallery.pics);
-	    	gallery.pics.latest_photos.map( photo => console.log(photo));
-	    	return (`
-	        <p>Most recent data aquired on: ${rover.max_date}</p>
-	    `);
-	    }
-
-    }
+			gallery.pics.latest_photos.map( photo => console.log(photo));
+			return (`
+				<p>Most recent data aquired on: ${rover.max_date}</p>
+			`);
+		}
+  }
 }
-
-
 
 // ------------------------------------------------------  API CALLS
 
