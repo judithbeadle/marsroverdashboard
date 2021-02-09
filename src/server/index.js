@@ -16,24 +16,13 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 
 // your API calls
 
-// apod
-app.get('/apod', async (req, res) => {
-    try {
-        let image = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.API_KEY}`)
-            .then(res => res.json())
-        res.send({ image })
-    } catch (err) {
-        console.log('error:', err);
-    }
-})
-
 // rover manifests and latest images
 const rovers = Immutable.List(['spirit', 'opportunity', 'curiosity']);
 
 
 rovers.forEach(rover => {
     let latestSol = 0
-    app.get(`/${rover}`, async (req, res) => {
+    app.get(`/${rover}/manifest`, async (req, res) => {
         try {
             let manifest = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${process.env.API_KEY}`)
                 .then(res => res.json())

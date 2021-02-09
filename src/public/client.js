@@ -16,7 +16,7 @@
 let store = {
 		rovers : Immutable.List(['spirit', 'opportunity', 'curiosity']),
     selectedRover : '',
-    roverInfo : '',
+    roversData : { spirit : {} , opportunity : {}, curiosity : {} } ,
     gallery : '',
     camera : '',
 }
@@ -27,7 +27,7 @@ const domData = (() => {
 	const roverSelect = document.getElementById('roverSelect');
 	roverSelect.addEventListener('change', (event) => {
 		//update store data when select value changes
-	   updateStore(store, { selectedRover: roverSelect.value, roverInfo : '', gallery : '' });
+	   updateStore(store, { selectedRover: roverSelect.value });
 	});
 
 	const getDashboard = () => {
@@ -47,6 +47,7 @@ const domData = (() => {
 const updateStore = (store, newState) => {
     store = Object.assign(store, newState)
     render(domData.getDashboard(), store)
+    console.log(store)
 }
 
 const render = async (root, state) => {
@@ -56,17 +57,17 @@ const render = async (root, state) => {
 
 // create content
 const App = (state) => {
-	let { selectedRover, roverInfo, gallery } = state
+	let { selectedRover, roversData, gallery } = state
 	if(selectedRover){
 		return `
 
 	    <div class="rover-data">
-	    	${roverWidget(roverInfo)}
+	    	${roverWidget(roversData[selectedRover])}
 	    </div>
 	    <div class="gallery">
-	    	<p>Cameras: ${roverCams(gallery)}</p>
+	    	<p>Cameras: ${roverCams(roversData[selectedRover])}</p>
 	    	<div class="gallery">
-	    		${roverGallery(gallery)}
+	    		${roverGallery(roversData[selectedRover])}
 	    	</div>
 	    </div>
 		`
@@ -97,19 +98,16 @@ const createDropdown = (array, selectContainer) => {
 	})
 }
 
-const imageDataToHTML = (data) => {
-	return data.map(photo => `<img src="${photo.img_src}" alt="Photo taken by ${photo.camera.name}">`).reduce( ( fullGallery, photo ) => fullGallery + photo)
-}
-
 // Rover data display on widget
-const roverWidget = (roverInfo) => {
+const roverWidget = (roverObj) => {
     // If the rover data object does not yet exist, request it again
-    if (!roverInfo ) {
-       getRoverInfo(store)
-       return 'loading...';
+    if (!roverObj.manifest ) {
+       //getRoverInfo(store)
+       getRoverManifest(store);
+       return 'loading manifest...';
     } else {
     	// destructuring data
-  		let { landing_date, launch_date, max_date, max_sol, name, photos, status, total_photos } = roverInfo.manifest;
+  		let { landing_date, launch_date, max_date, max_sol, name, photos, status, total_photos } = roverObj.manifest;
 	    // TODO get the different values and build up the html with those
 	    return (`
 				<h2>${name}</h2>
@@ -125,14 +123,14 @@ const roverWidget = (roverInfo) => {
 }
 
 // Rover image galleries
-const roverCams = (gallery) => {
-	if( !gallery ) {
-		getGallery(store)
+const roverCams = (roverObj) => {
+	if( !roverObj.photos ) {
+		getRoverPhotos(store);
 		return 'loading cameras...';
 	} else {
 		// map for cam name only
 		// filter unique names (The indexOf method returns the first index it finds of the provided element)
-		return gallery.photos
+		return roverObj.photos
 			.map(photo => photo.camera.name)
 			.filter( (value, index, array) => array.indexOf(value) === index )
 			.map(cam => `<span class="camera">${cam}</span>`)
@@ -141,34 +139,49 @@ const roverCams = (gallery) => {
 }
 
 // Gallery
-const roverGallery = (gallery) => {
-	if( !gallery ) {
-		getGallery(store)
-		return 'loading gallery...';
+const roverGallery = (roverObj) => {
+	if( !roverObj.photos ) {
+		console.log('no photos :(');
+		getRoverPhotos(store);
+		return 'loading photos...';
 	} else {
-		const pictures = gallery.photos
 		// TODO: check if camera has been selected and filter images like so:
 		// const captainsArray = characters.filter(x => x.role === 'Captain').map( c => c.name );
 
-		return imageDataToHTML(gallery.photos)
+		return imageDataToHTML(roverObj.photos)
 
   }
 }
 
+// ------------------------------------------------------  Helper Functions
+
+// creating the inner HTML for the gallery from photos objects
+const imageDataToHTML = (photosArray) => {
+	const imageListItems = photosArray.map(photo => `<li class="image"><img src="${photo.img_src}" alt="Photo taken by ${photo.camera.name}"></li>`).join('');
+	return `<ul class="gallery">${imageListItems}</ul>`;
+}
+
+// --------- Nested Store Object Data:
+// store rover manifests and photos in the store roversData object, to avoid repeat API calls
+const addToRoverObject = (subobject, currRoverSlug, roversData) => {
+	// we keep all existing data and add the manifest or gallery object to the rover object
+	return Object.assign(roversData, {
+		[currRoverSlug] : Object.assign(roversData[currRoverSlug], subobject)
+	});
+}
+
 // ------------------------------------------------------  API CALLS
 
-const getGallery = (state) => {
-	let { selectedRover, roverInfo } = state
-	console.log('get Images for: ' + selectedRover);
-	fetch(`http://localhost:3000/${selectedRover}/photos`)
+// higher order function for getting the data
+const getRoverData = (dataSlug) => {
+	return state => {
+    let { rovers, selectedRover, roversData } = state
+    console.log(`get ${dataSlug} for ${selectedRover}`);
+    fetch(`http://localhost:3000/${selectedRover}/${dataSlug}`)
         .then(res => res.json())
-        .then(gallery => updateStore(store, { gallery }))
+        .then(dataObj => updateStore(store, { roversData : addToRoverObject(dataObj, selectedRover, roversData) }))
+      }
 }
 
-const getRoverInfo = (state) => {
-    let { selectedRover } = state
-    console.log('getData for: ' + selectedRover);
-    fetch(`http://localhost:3000/${selectedRover}`)
-        .then(res => res.json())
-        .then(roverInfo => updateStore(store, { roverInfo }))
-}
+const getRoverPhotos = getRoverData('photos');
+const getRoverManifest = getRoverData('manifest');
