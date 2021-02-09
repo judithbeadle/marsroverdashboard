@@ -153,6 +153,7 @@ const roverGallery = (roverObj) => {
   }
 }
 
+
 // ------------------------------------------------------  Helper Functions
 
 // creating the inner HTML for the gallery from photos objects
