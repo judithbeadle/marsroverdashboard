@@ -63,8 +63,10 @@ html, body {
 .camera {
   display: inline-block;
   padding: 0.25em 0.5em;
+  margin: 0.25em;
   background-color: var(--color__orange);
 }
+
 
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {

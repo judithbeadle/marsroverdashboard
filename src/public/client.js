@@ -132,13 +132,11 @@ const roverCams = (gallery) => {
 	} else {
 		// map for cam name only
 		// filter unique names (The indexOf method returns the first index it finds of the provided element)
-		//reduce to one string
-		const cams = gallery.photos
+		return gallery.photos
 			.map(photo => photo.camera.name)
 			.filter( (value, index, array) => array.indexOf(value) === index )
 			.map(cam => `<span class="camera">${cam}</span>`)
-		console.log(cams)
-		return cams.join('')
+			.join('');
   }
 }
 
