@@ -2,28 +2,55 @@
 <!-- Generator: Adobe Illustrator 25.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="mars" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">
-<circle style="fill:#CE4205;" cx="250" cy="250" r="250"/>
-<g id="texture-group">
-	<defs>
-		<circle id="clipping-path" cx="250" cy="250" r="250"/>
-	</defs>
-	<clipPath id="clipping-path_1_">
-		<use xlink:href="#clipping-path"  style="overflow:visible;"/>
-	</clipPath>
-	<g id="clip-group-texture" style="clip-path:url(#clipping-path_1_);">
-
-			<image style="overflow:visible;enable-background:new    ;" width="2000" height="1000" id="texture" xlink:href="texture.gif"  transform="matrix(0.75 0 0 0.75 -250 0)">
-		</image>
+<g id="mars_1_">
+	<g>
+		
+			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="33.5349" y1="124.7658" x2="466.5173" y2="374.7484" gradientTransform="matrix(0.9891 0.1474 -0.1474 0.9891 39.4949 -33.9067)">
+			<stop  offset="0" style="stop-color:#FFBF8B"/>
+			<stop  offset="0.3921" style="stop-color:#F46311"/>
+			<stop  offset="1" style="stop-color:#4C0C3A"/>
+		</linearGradient>
+		<ellipse style="fill:url(#SVGID_1_);" cx="250" cy="250" rx="249.9" ry="249.9"/>
+		<ellipse style="fill:#CE4205;" cx="250" cy="250" rx="249.9" ry="249.9"/>
+	</g>
+	<g>
+		<g>
+			<defs>
+				<circle id="SVGID_2_" cx="250" cy="250" r="249.9"/>
+			</defs>
+			<clipPath id="SVGID_3_">
+				<use xlink:href="#SVGID_2_"  style="overflow:visible;"/>
+			</clipPath>
+			<g id="texture.tif_5_" style="clip-path:url(#SVGID_3_);">
+				
+					<image style="overflow:visible;" width="2000" height="1000" id="texture" xlink:href="8FA872F73A623720.png"  transform="matrix(0.7002 0.1783 -0.1783 0.7002 -269.6498 -263.0044)">
+				</image>
+			</g>
+		</g>
+		<g>
+			<defs>
+				<circle id="SVGID_4_" cx="250" cy="250" r="249.9"/>
+			</defs>
+			<clipPath id="SVGID_5_">
+				<use xlink:href="#SVGID_4_"  style="overflow:visible;"/>
+			</clipPath>
+		</g>
+	</g>
+	<g id="shade">
+		
+			<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="33.6427" y1="124.7917" x2="466.6251" y2="374.7742" gradientTransform="matrix(0.9891 0.1474 -0.1474 0.9891 39.4949 -33.9067)">
+			<stop  offset="0.5014" style="stop-color:#5F1635;stop-opacity:0"/>
+			<stop  offset="1" style="stop-color:#4C0C3A"/>
+		</linearGradient>
+		<ellipse style="fill:url(#SVGID_6_);" cx="250.1" cy="250" rx="249.9" ry="249.9"/>
+	</g>
+	<g id="light">
+		
+			<linearGradient id="SVGID_7_" gradientUnits="userSpaceOnUse" x1="33.582" y1="124.8008" x2="466.5644" y2="374.7833" gradientTransform="matrix(0.9891 0.1474 -0.1474 0.9891 39.4949 -33.9067)">
+			<stop  offset="0" style="stop-color:#FFBF8B"/>
+			<stop  offset="0.5354" style="stop-color:#FEB47C;stop-opacity:0"/>
+		</linearGradient>
+		<ellipse style="fill:url(#SVGID_7_);" cx="250" cy="250" rx="249.9" ry="249.9"/>
 	</g>
 </g>
-<linearGradient id="gradient-dark_1_" gradientUnits="userSpaceOnUse" x1="33.4947" y1="375.0887" x2="466.5246" y2="125.0795" gradientTransform="matrix(0.9891 0.1472 0.1472 -0.9891 -34.0071 460.547)">
-	<stop  offset="0.501" style="stop-color:#5F1635;stop-opacity:0"/>
-	<stop  offset="1" style="stop-color:#4C0C3A"/>
-</linearGradient>
-<circle id="gradient-dark" style="fill:url(#gradient-dark_1_);" cx="250.1" cy="250" r="250"/>
-<linearGradient id="gradient-light_2_" gradientUnits="userSpaceOnUse" x1="33.396" y1="375.0743" x2="466.4255" y2="125.0644" gradientTransform="matrix(0.9891 0.1472 0.1472 -0.9891 -34.0071 460.547)">
-	<stop  offset="0" style="stop-color:#FFBF8B"/>
-	<stop  offset="0.535" style="stop-color:#FEB47C;stop-opacity:0"/>
-</linearGradient>
-<circle id="gradient-light_1_" style="fill:url(#gradient-light_2_);" cx="250" cy="250" r="250"/>
 </svg>

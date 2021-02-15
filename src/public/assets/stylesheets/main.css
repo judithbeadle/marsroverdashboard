@@ -21,7 +21,7 @@ html, body {
 
 	/* dark colours: purple to magenta hues for bgs */
   --color__purple: #4c0c3a;
-  --color__purple-dark: #2a012d;
+  --color__purple-dark: #200123;
   --color__magenta: #681839;
   --color__rust: #923131;
 
@@ -45,19 +45,82 @@ html, body {
   --app__gutter: 5vw;
 }
 
+/* helper classes */
+.center-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+p.instructions {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  text-transform: uppercase;
+}
+
 #app {
 	background-color: var(--color__purple-dark);
 	color: var(--color__white);
 	font-family: 'Assistant', sans-serif;
 }
 
-#app > * {
+#app > *,
+#mars-graphic {
 	padding: var(--app__gutter);
+  flex: 1;
+  position: relative;
 }
 
+#hero {
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+#mars-graphic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin: 0 -20vw;
+}
+
+.instructions {
+  position: absolute;
+}
+
+#hero svg {
+  /*width: 50vw; */
+
+}
+
+#intro {
+  margin-top: 100vh;
+  background : linear-gradient(0deg, rgba(200, 134, 109, 1) 0.31%, rgba(235, 211, 177, 1) 38.63%, rgba(251, 251, 245, 0) 100%);
+  text-align: center;
+  top:0;
+}
+
+
 .app-title {
-	font-size: 14vw;
-	font-weight: 800;
+  font-size: 14vw;
+  font-weight: 800;
+  color: var(--color__orange);
+  text-transform: uppercase;
+  line-height: 0.75;
+}
+
+#intro p {
+  color: var(--color__purple-dark);
+  font-size: 1.25em;
+}
+
+#intro p.intro-text {
+  font-weight: 700;
 }
 
 .camera {
@@ -67,18 +130,17 @@ html, body {
   background-color: var(--color__orange);
 }
 
-
-/* -------------------  TABLET  --------------------- */
-@media (min-width: 768px) {
-  #app {
-    min-height: 100%;
+#app {
     display: flex;
     flex-direction: column;
   }
-
-  #app > * {
-    flex: 1;
+  #app > *,
+  #mars-graphic {
     min-height: 100vh;
+  }
+
+  #hero {
+    position: fixed;
   }
 
   .dashboard-wrap {
@@ -86,6 +148,11 @@ html, body {
     flex-direction: row-reverse;
     justify-content: space-between;
   }
+
+
+/* -------------------  TABLET  --------------------- */
+@media (min-width: 768px) {
+
 }
 
 /* -------------------  DESKTOP  -------------------- */
