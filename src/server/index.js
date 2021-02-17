@@ -20,6 +20,10 @@ const apiKey = process.env.API_KEY;
 // rover manifests and latest images
 const rovers = Immutable.List(['spirit', 'opportunity', 'curiosity']);
 
+
+// Helper Functions for Dates ========================================
+
+// data store for key date arrays, which we only have once the manifest / initial photos have been fetched
 let roverDates = {
     spirit : [],
     opportunity : [],
@@ -32,7 +36,6 @@ const getRoverDates = (rover) => {
 
 const updateRoverDates = (rover, array) => {
     roverDates[rover] = array;
-    //Object.assign(roverDates[rover], array);
 }
 
 // higher order function for changing dates
@@ -60,6 +63,8 @@ const addtoDate = (dmy) => {
 const addDays = addtoDate('day');
 const addYears = addtoDate('year');
 
+
+// Function for creating an array with key dates: first day on Mars plus every birthday active on Mars
 const crucialDatesArr = (landingDate, totalDays) => {
     const fullYears = Math.floor(parseInt(totalDays) / 355);
     return new Array(fullYears).fill('').map((item, index) => {
@@ -71,6 +76,24 @@ const crucialDatesArr = (landingDate, totalDays) => {
     })
 }
 
+// FETCH DATA ===========================================
+
+// function for creating a server url for each rover birthday keydate for use in galleries: e.g. /spirit/photos/bd1
+const getBdayImages = (rover, earthDate, index) => {
+    app.get(`/${rover}/photos/bd${index}`, async (req, res) => {
+        try {
+            let photos = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?earth_date=${earthDate}&api_key=${apiKey}`)
+            .then( res => res.json())
+            .then( photos => photos.photos )
+            res.send({ photos })
+        } catch (err) {
+            console.log('error:', err);
+            console.log(`CHECK: ${rover}'s birthday number ${index} was on ${earthDate}!`);
+        }
+    })
+}
+
+// fetching latest images and manifest for each rover as well as calling the getBdayImages function for date-based image collection
 rovers.forEach(rover => {
     app.get(`/${rover}/manifest`, async (req, res) => {
         try {
@@ -84,24 +107,18 @@ rovers.forEach(rover => {
     })
     app.get(`/${rover}/photos`, async (req, res) => {
         try {
-            let roverDates = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/latest_photos?api_key=${apiKey}`)
-                .then(res => res.json())
-                .then( roverDates =>  updateRoverDates(rover, crucialDatesArr( roverDates.latest_photos[0].rover.landing_date, roverDates.latest_photos[0].sol )))
-            let photos = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?earth_date=${getRoverDates(rover)[0]}&api_key=${apiKey}`)
-            .then( res => res.json())
-            .then( photos => photos.photos )
+            let roverDates = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${apiKey}`)
+                .then( res => res.json() )
+                .then( roverDates =>  updateRoverDates( rover, crucialDatesArr( roverDates.photo_manifest.landing_date, roverDates.photo_manifest.max_sol ) ) )
+            getRoverDates(rover).forEach((date, index) => getBdayImages(rover, date, index))
+            let photos = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/latest_photos?api_key=${apiKey}`)
+                .then( res => res.json() )
+                .then( photos => photos.latest_photos )
             res.send({ photos })
         } catch (err) {
             console.log('error:', err);
         }
     })
-
-    getRoverDates(rover).forEach(roverDate => {
-        // TODO create more urls like so: rover/photos/yyyy-m-dd
-
-    })
 })
-
-
 
 app.listen(port, () => console.log(`MarsRoverDashboard app listening on port ${port}!`))
