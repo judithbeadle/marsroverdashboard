@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/assets/stylesheets/resets.css">
     <link rel="stylesheet" type="text/css" href="/assets/stylesheets/main.css">
 </head>
@@ -49,40 +49,20 @@
             </div>
         </div>
         <section id="intro">
-            <h1 class="app-title">Mars Explorer</h1>
+            <div class="wrapper-inner">
+                <h1 class="app-title">Mars Explorer</h1>
 
-            <p class="intro-text">
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-            </p>
+                <p class="intro-text">
+                    The goal of the Mars Exploration Program is to explore Mars and to provide a continuous flow of scientific information and discovery through a carefully selected series of robotic orbiters, landers and mobile laboratories interconnected by a high-bandwidth Mars/Earth communications network.
+                </p>
+                <p>
+                    Now you can join the mission and explore Mars yourself via real time rover data. Enter the dashboard and start gathering data using one of four rovers, two of which are currently active. Chose a rover, date and rover camera to gather image data and find out facts about each rover and their unique missions. Then go ahead and explore some more with Nasa...
+                </p>
+                <a id="access-dashboard" class="btn" href="#dashboard">Join Mission</a>
+            </div>
         </section>
 
-        <div class="dashboard-wrap">
-            <section id="configuration">
-                <form>
-                    <select name="rovers" id="roverSelect">
-                        <option value="">Rovers</option>
-                    </select>
-                </form>
-                <!--<h2>TODO: further info / interactivity</h2>
-                 <div id="rover-info">
-                    <div class="curiosity">
-                        <h3>Where is Curiosity?</h3>
-                        <p>You can see the current location of curiosity on this <a href="https://mars.nasa.gov/maps/location/?mission=Curiosity">map</a>.</p>
-                    </div>
-                </div>
-                <div class="cam-info">
-                    <h3>MAHLI</h3>
-                    <p>
-                    MAHLI was built by Malin Space Science Systems in San Diego. The SAM instrument suite was built at Goddard Space Flight Center with significant elements provided by industry, university, and national and international NASA partners. NASA's Jet Propulsion Laboratory, a division of Caltech in Pasadena, California, manages the Mars Science Laboratory Project for the NASA Science Mission Directorate in Washington. JPL designed and built the project's Curiosity rover. Source: <a href="https://www.nasa.gov/image-feature/jpl/pia23378/curiosity-at-glen-etive">nasa.gov/image-feature/</a>
-                    </p>
-                </div>-->
-            </section>
-
-            <!-- TODO Provide a way to dynamically switch the UI to view one of the three rovers. (NOTE: This can be done using tabs, buttons, or any other UI control) -->
-            <section id="dashboard"></section>
+        <div id="dashboard">
         </div>
     </main>
     <footer>copyright etc info her</footer>
