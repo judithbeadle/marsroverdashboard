@@ -17,6 +17,7 @@ const zoomScroll = () => {
   mars.style.padding = padding;
   scrollInstructions.style.opacity = (( Math.floor( intro.getBoundingClientRect().top ) / ( onePercent * 0.5 ) ) / 100) - 1 ;
   if (sidepadding <= 0) {
+  	intro.classList.add('fixed');
     stopInterval(zoomScroll)
   }
 }

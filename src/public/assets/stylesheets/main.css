@@ -13,10 +13,6 @@ There is a lot of awesome dashboard design inspiration out there.
 
 */
 
-html, body {
-  height: 100%;
-}
-
 #app {
 
 	/* dark colours: purple to magenta hues for bgs */
@@ -42,7 +38,17 @@ html, body {
   --color__button-bg: var(--color__purple);
 
   /* some constants for spacing */
-  --app__gutter: 5vw;
+  --app__gutter: 2rem;
+  --border__radius: 0.125rem;
+}
+
+
+html, body {
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6, p, ol, ul, li {
+  margin: 1em 0;
 }
 
 /* helper classes */
@@ -53,6 +59,18 @@ html, body {
   justify-content: center;
   align-items: center;
   z-index: 100;
+}
+
+.fixed {
+  position: fixed;
+  top: 0;
+}
+
+.centered {
+  justify-self: center;
+  align-self: center;
+  text-align: center;
+  margin: auto auto;
 }
 
 p.instructions {
@@ -70,13 +88,16 @@ p.instructions {
 
 #app > *,
 #mars-graphic {
-	padding: var(--app__gutter);
   flex: 1;
   position: relative;
 }
 
+#app > * > *,
+#mars-graphic > * {
+  padding: var(--app__gutter);
+}
+
 #hero {
-  padding: 0;
   width: 100%;
   height: 100vh;
 }
@@ -100,18 +121,24 @@ p.instructions {
 
 #intro {
   margin-top: 100vh;
-  background : linear-gradient(0deg, rgba(200, 134, 109, 1) 0.31%, rgba(235, 211, 177, 1) 38.63%, rgba(251, 251, 245, 0) 100%);
+  background : linear-gradient(0deg, rgba(251, 251, 245, 1) 0.31%, rgba(235, 211, 177, 1) 38.63%, rgba(200, 134, 109, 0) 100%);
   text-align: center;
   top:0;
+  position: sticky;
 }
 
+#dashboard {
+  margin-top: 50vh;
+}
 
 .app-title {
-  font-size: 14vw;
+  font-size: 12vw;
   font-weight: 800;
-  color: var(--color__orange);
+  color: var(--color__rust);
   text-transform: uppercase;
   line-height: 0.75;
+  letter-spacing: 0.125em;
+  margin: 0.5em 0;
 }
 
 #intro p {
@@ -125,33 +152,185 @@ p.instructions {
 
 .camera {
   display: inline-block;
-  padding: 0.25em 0.5em;
-  margin: 0.25em;
-  background-color: var(--color__orange);
 }
 
 #app {
-    display: flex;
-    flex-direction: column;
-  }
-  #app > *,
-  #mars-graphic {
-    min-height: 100vh;
-  }
+  display: flex;
+  flex-direction: column;
+}
+#app > *,
+#mars-graphic {
+  min-height: 100vh;
+}
 
-  #hero {
-    position: fixed;
-  }
+#hero {
+  position: fixed;
+}
 
-  .dashboard-wrap {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-  }
+#dashboard {
+  background : linear-gradient(180deg, rgba(146, 49, 49, .8) 5vh, rgba(76, 12, 58, .8) 90vh);
+}
 
+.configuration {
+  background-color: var(--color__purple-dark);
+}
+
+.configuration h2 {
+  display: none;
+}
+
+ul.key-facts {
+  margin-bottom: 1em;
+}
+
+.key-facts li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em 0;
+  margin: 0;
+  border-bottom: 1px solid var(--color__magenta);
+}
+
+.key-facts li .label {
+  font-size: 0.875em;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--color__butter);
+}
+
+.filters {
+  margin: 0.25rem -0.25rem;
+}
+
+.btn {
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  margin: 0.25rem;
+  background-color: var(--color__magenta);
+  transition: all .5s;
+  border: 1px solid var(--color__orange);
+  border-radius: var(--border__radius);
+  color: var(--color__white);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn:hover, .btn:focus {
+  background-color: var(--color__rust);
+}
+
+.btn.active {
+  background-color: var(--color__orange);
+}
+
+#intro .btn {
+  font-size: 1.25em;
+  border-radius: 2em;
+  padding: 0.5em 1em 0.6em;
+  margin: calc( var(--app__gutter) * 1.5) 0;
+}
+
+a {
+  color: var(--color__white);
+}
+
+
+/* form / select styling */
+
+select {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  padding: 0.5em 1em;
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  outline: none;
+  color: var(--color__white);
+}
+
+/* removal of the arrow for lower IE versions */
+select::-ms-expand {
+  display: none;
+}
+
+.select-wrap {
+  width: 100%;
+  min-width: 20ch;
+  border-radius: var(--border__radius);
+  cursor: pointer;
+  line-height: 1.1;
+  background-color: var(--color__magenta);
+  display: grid;
+  grid-template-areas: "select";
+  align-items: center;
+  margin-bottom: calc(var(--app__gutter)/ 2);
+}
+
+.select-wrap::after {
+  content: "";
+  width: 1em;
+  height: 0.5em;
+  background-color: var(--color__butter);
+  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  justify-self: end;
+  margin-right: 1em;
+}
+
+select,
+.select-wrap:after {
+  grid-area: select;
+}
+
+/* only show a few images on small displays
+.gallery li:nth-of-type(1n+2) {
+  display: none;
+}*/
+
+#imageGallery > ul {
+  display: none;
+  flex-wrap: wrap;
+  border: var(--color__orange) 1px solid;
+  padding: 0.5em;
+  margin: var(--app__gutter) 0;
+}
+
+#imageGallery > ul.active {
+  display: flex;
+}
+
+#imageGallery ul li {
+  flex-basis: 25%;
+  padding: 0.5em;
+}
+
+#imageGallery ul li img {
+  border-radius: var(--border__radius);
+  box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+footer {
+  position: relative;
+  z-index: 1000;
+}
 
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
+  #dashboard {
+    display: flex;
+    justify-content: space-between;
+  }
+  #dashboard .configuration {
+    width: 20em;
+  }
+  #dashboard .main {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+  }
 
 }
 
