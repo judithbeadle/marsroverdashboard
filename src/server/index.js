@@ -18,7 +18,7 @@ app.use('/', express.static(path.join(__dirname, '../public')))
 const apiKey = process.env.API_KEY;
 
 // rover manifests and latest images
-const rovers = Immutable.List(['spirit', 'opportunity', 'curiosity']);
+const rovers = Immutable.List(['spirit', 'opportunity', 'curiosity', 'perseverance']);
 
 
 // Helper Functions for Dates ========================================
@@ -27,7 +27,8 @@ const rovers = Immutable.List(['spirit', 'opportunity', 'curiosity']);
 let roverDates = {
     spirit : [],
     opportunity : [],
-    curiosity : []
+    curiosity : [],
+    perseverance : [],
 }
 
 const getRoverDates = (rover) => {
@@ -50,10 +51,24 @@ const addtoDate = (dmy) => {
             date.setFullYear(parseInt(year + number));
             break;
           case 'month':
-            date.setMonth(parseInt(month + number));
+            if (month + number >= 12){
+                let plusYears = Math.floor((month + number) / 12);
+                let plusMonth = (month + number) % 12;
+                date.setFullYear(parseInt(year + plusYears));
+                date.setMonth(parseInt(month + plusMonth));
+            } else {
+                date.setMonth(parseInt(month + number));
+            }
             break;
           case 'day':
-            date.setDate(parseInt(day + number));
+            let lastDay = new Date(year, month + 1, 0);
+            if (day + number > lastDay){
+                let plusDays = (days + number) % lastDay;
+                date.setMonth(parseInt(month + 1));
+                date.setDate(parseInt(day + plusDays));
+            } else {
+                date.setDate(parseInt(day + number));
+            }
             break;
         }
         return date.toISOString().slice(0,10);
@@ -61,26 +76,43 @@ const addtoDate = (dmy) => {
 }
 
 const addDays = addtoDate('day');
+const addMonths = addtoDate('month');
 const addYears = addtoDate('year');
 
 
 // Function for creating an array with key dates: first day on Mars plus every birthday active on Mars
 const crucialDatesArr = (landingDate, totalDays) => {
     const fullYears = Math.floor(parseInt(totalDays) / 355);
-    return new Array(fullYears).fill('').map((item, index) => {
-        if(index === 0){
-            return addDays(landingDate, 1);
-        } else {
-            return addYears(landingDate, index)
-        }
-    })
+    const fullMonths = Math.floor(parseInt(totalDays) / (355 / 12));
+    const fullWeeks = Math.floor(parseInt(totalDays) / 7);
+    if(fullYears > 0){
+        return new Array(fullYears+1).fill('').map((item, index) => {
+            if(index === 0){
+                return addDays(landingDate, 1);
+            } else {
+                return addYears(landingDate, index);
+            }
+        })
+    } else if(fullMonths > 0){
+        return new Array(fullMonths+1).fill('').map((item, index) => {
+            if(index === 0){
+                return addDays(landingDate, 1);
+            } else {
+                return addMonths(landingDate, index);
+            }
+        })
+    } else {
+        return new Array(totalDays+1).fill('').map((item, index) => {
+            return addDays(landingDate, index);
+        })
+    }
 }
 
 // FETCH DATA ===========================================
 
 // function for creating a server url for each rover birthday keydate for use in galleries: e.g. /spirit/photos/bd1
 const getBdayImages = (rover, earthDate, index) => {
-    app.get(`/${rover}/photos/bd${index}`, async (req, res) => {
+    app.get(`/${rover}/photos/${index}`, async (req, res) => {
         try {
             let photos = await fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?earth_date=${earthDate}&api_key=${apiKey}`)
             .then( res => res.json())
@@ -105,7 +137,7 @@ rovers.forEach(rover => {
             console.log('error:', err);
         }
     })
-    app.get(`/${rover}/photos`, async (req, res) => {
+    app.get(`/${rover}/photos/latest`, async (req, res) => {
         try {
             let roverDates = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${apiKey}`)
                 .then( res => res.json() )
