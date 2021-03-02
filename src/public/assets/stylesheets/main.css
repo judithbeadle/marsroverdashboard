@@ -31,6 +31,8 @@ There is a lot of awesome dashboard design inspiration out there.
   --color__beige: #ebd3b1;
   --color__cream: #fdfdef;
 
+  --color__active: #57ff17;
+
   /* assigning standard var names */
   --color__black: var(--color__purple-dark);
   --color__white: var(--color__cream);
@@ -40,6 +42,17 @@ There is a lot of awesome dashboard design inspiration out there.
   /* some constants for spacing */
   --app__gutter: 2rem;
   --border__radius: 0.125rem;
+}
+
+/* animations */
+
+@keyframes active {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 
@@ -78,6 +91,16 @@ p.instructions {
   height: 100vh;
   width: 100vw;
   text-transform: uppercase;
+}
+
+.mode-info {
+  color: var(--color__active);
+  text-transform: uppercase;
+  letter-spacing: 0.125em;
+}
+
+.loading {
+  animation: active 1s infinite;
 }
 
 #app {
@@ -168,7 +191,7 @@ p.instructions {
 }
 
 #dashboard {
-  background : linear-gradient(180deg, rgba(146, 49, 49, .8) 5vh, rgba(76, 12, 58, .8) 90vh);
+  background : linear-gradient(180deg, rgba(146, 49, 49, 1) 5vh, rgba(76, 12, 58, 1) 90vh);
 }
 
 .configuration {
@@ -191,12 +214,21 @@ ul.key-facts {
   border-bottom: 1px solid var(--color__magenta);
 }
 
+.key-facts li.status-complete {
+  color: var(--color__rust);
+}
+
+.key-facts li.status-active {
+  color: var(--color__active);
+}
+
 .key-facts li .label {
   font-size: 0.875em;
   font-weight: 500;
   text-transform: uppercase;
   color: var(--color__butter);
 }
+
 
 .filters {
   margin: 0.25rem -0.25rem;
