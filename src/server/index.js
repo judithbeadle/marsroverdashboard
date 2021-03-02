@@ -50,25 +50,14 @@ const addtoDate = (dmy) => {
           case 'year':
             date.setFullYear(parseInt(year + number));
             break;
-          case 'month':
-            if (month + number >= 12){
-                let plusYears = Math.floor((month + number) / 12);
-                let plusMonth = (month + number) % 12;
-                date.setFullYear(parseInt(year + plusYears));
-                date.setMonth(parseInt(month + plusMonth));
-            } else {
-                date.setMonth(parseInt(month + number));
-            }
+            case 'month':
+               date.setMonth(parseInt(month + number));
             break;
-          case 'day':
-            let lastDay = new Date(year, month + 1, 0);
-            if (day + number > lastDay){
-                let plusDays = (days + number) % lastDay;
-                date.setMonth(parseInt(month + 1));
-                date.setDate(parseInt(day + plusDays));
-            } else {
-                date.setDate(parseInt(day + number));
-            }
+            case 'week':
+            date.setDate(parseInt(day + (number * 7)));
+            break;
+            case 'day':
+            date.setDate(parseInt(day + number));
             break;
         }
         return date.toISOString().slice(0,10);
@@ -76,16 +65,17 @@ const addtoDate = (dmy) => {
 }
 
 const addDays = addtoDate('day');
+const addWeeks = addtoDate('weeks');
 const addMonths = addtoDate('month');
 const addYears = addtoDate('year');
 
 
 // Function for creating an array with key dates: first day on Mars plus every birthday active on Mars
 const crucialDatesArr = (landingDate, totalDays) => {
-    const fullYears = Math.floor(parseInt(totalDays) / 355);
-    const fullMonths = Math.floor(parseInt(totalDays) / (355 / 12));
+    const fullYears = Math.floor(parseInt(totalDays) / 356);
+    const fullMonths = Math.floor(parseInt(totalDays) / (356 / 12));
     const fullWeeks = Math.floor(parseInt(totalDays) / 7);
-    if(fullYears > 0){
+    if(fullYears > 1){
         return new Array(fullYears+1).fill('').map((item, index) => {
             if(index === 0){
                 return addDays(landingDate, 1);
@@ -93,12 +83,20 @@ const crucialDatesArr = (landingDate, totalDays) => {
                 return addYears(landingDate, index);
             }
         })
-    } else if(fullMonths > 0){
+    } else if(fullMonths > 1){
         return new Array(fullMonths+1).fill('').map((item, index) => {
             if(index === 0){
                 return addDays(landingDate, 1);
             } else {
                 return addMonths(landingDate, index);
+            }
+        })
+    } else if(fullWeeks > 1){
+        return new Array(fullWeeks+1).fill('').map((item, index) => {
+            if(index === 0){
+                return addDays(landingDate, 1);
+            } else {
+                return addWeeks(landingDate, index);
             }
         })
     } else {
