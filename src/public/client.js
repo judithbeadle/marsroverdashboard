@@ -50,32 +50,34 @@ const staticRovers = Immutable.List([
 // holding states
 let store = {
 		rovers : Immutable.List(['spirit', 'opportunity', 'curiosity', 'perseverance']),
-    selectedRover : '',
-    roversData : { spirit : {} , opportunity : {}, curiosity : {}, perseverance : {} } ,
-    cameras : '',
+		selectedRover : '',
+		selectedDate : 'latest',
+		roversData : { spirit : {} , opportunity : {}, curiosity : {}, perseverance : {} } ,
 }
 
 // IIFE to create methods for grabbing things from the DOM and setting basics
+// it's not short, but it's a function rather than a declaration of a static const
 const domData = (() => {
 	const dashboard = document.getElementById('dashboard');
 	const getDashboard = () => {
 		return dashboard;
 	}
-
 	return {
 		getDashboard : getDashboard,
 	}
 })();
 
 const updateStore = (store, newState) => {
-  store = Object.assign(store, newState)
-  render(domData.getDashboard(), store)
+	store = Object.assign(store, newState)
+	render(domData.getDashboard(), store)
 }
 
 const render = async (root, state) => {
 	root.innerHTML = App(state)
-	addFilters("camera");
 	addSelectListener('roverSelect');
+	addDateListener('dateSelect');
+	addClickListener('camera');
+	addClickListener('image');
 }
 
 
@@ -83,7 +85,6 @@ const render = async (root, state) => {
 
 const App = (state) => {
 	let { rovers, selectedRover, roversData } = state
-
 	return `
 	<section class="configuration">
 		${selectDropdown(rovers, 'roverSelect', 'Select Rover')}
@@ -95,7 +96,7 @@ const App = (state) => {
 
 // listening for load event because page should load before any JS is called
 window.addEventListener('load', () => {
-  render(domData.getDashboard(), store)
+	render(domData.getDashboard(), store)
 })
 
 // ------------------------------------------------------  COMPONENTS
@@ -113,61 +114,91 @@ const selectDropdown = (array, selectId, selectLabel) => {
 	`;
 }
 
+const createDateSelect = (array, selectId) => {
+	const options = array.map(option => {
+		return `<option value="${option.id}">${option.earth_date} / ${option.label}</option>`
+	}).join('');
+	return `
+	<div class="select-wrap">
+	<select id="${selectId}">
+		${options}
+	</select>
+	</div>
+	`;
+}
+
+const addDateListener = (selectId) => {
+	const selectNode = document.getElementById(selectId);
+	if(selectNode){
+		selectNode.value = store.selectedDate; // as this is part of the updated dashboard we need to keep setting this
+		selectNode.addEventListener('change', (event) => {
+			updateStore(store, { selectedDate : selectNode.value })
+		})
+	}
+}
+
 // Rover data display on widget
 const roverWidget = (roverObj) => {
 		if(!roverObj) {
-			return ''
+			return '<p><span class="mode-info">Rover Controls ready</span></p>'
 		}
-    // If the rover data object does not yet exist, request it again
-    else if (!roverObj.manifest ) {
-       getRoverManifest(store);
-       return 'loading manifest...';
-    } else {
-    	// destructuring data
-  		let { landing_date, launch_date, max_date, max_sol, name, photos, status, total_photos } = roverObj.manifest;
-  		const staticRoverInfo = staticRovers.find(rover => rover.name === name);
-  		const dates = crucialDatesArr(roverObj.manifest);
+		// If the rover data object does not yet exist, request it again
+		else if (!roverObj.manifest ) {
+			 getRoverManifest(store);
+			 return `
+				<p class="mode-info">Loading: <span class="loading">rover manifest<span></p>
+			`
+		} else {
+			// destructuring data
+			let { landing_date, launch_date, max_date, max_sol, name, photos, status, total_photos } = roverObj.manifest;
+			const staticRoverInfo = staticRovers.find(rover => rover.name === name);
+			const dates = { dates : crucialDatesArr(roverObj.manifest) };
 
-
-
-	    // TODO get the different values and build up the html with those
-	    return (`
-	    	<img src="/assets/images/rovers/${name}.jpg" alt="${staticRoverInfo.photo.alt}">
+			// get the different values and build up the html with those
+			return (`
+				<div class="image-wrap status-${status}">
+					<img src="/assets/images/rovers/${name}.jpg" alt="${staticRoverInfo.photo.alt}">
+				</div>
 				<h2>${name}</h2>
 				<ul class="key-facts">
 					<li><span class="label">Launch Date:</span> ${launch_date}</li>
 					<li><span class="label">Landing Date:</span> ${landing_date}</li>
-					<li><span class="label">Status:</span> ${status}</li>
+					<li class="label status-${status}"><span class="label">Status:</span> ${status}</li>
 					<li><span class="label">Latest images taken on:</span> ${max_date}</li>
 					<li><span class="label">Time on Mars:</span> ${max_sol} sols</li>
 				</ul>
-				<p>Dates: ${dates.join(', ')}</p>
 				<p>${staticRoverInfo.shortInfo}</p>
-	    `)
-    }
+			`)
+		}
 }
 
 const roverMain = (roverObj) => {
 	if(!roverObj) {
-    	return `
+			return `
 			<div class="main">
-				<p class="centered">Pick a rover to start your mission</p>
+				<div class="widget instructions centered">
+					<span class="mode-info">Dashboard on standby</span>
+				</div>
 			</div>
 			`
 	} else if(!roverObj.manifest ) {
 		// first getting the manifest data, as this is the basis of everything else
-   	getRoverManifest(store);
-	   return `
+		getRoverManifest(store);
+		 return `
 			<div class="main">
-				<p>getting Rover data...</p>
+				<p class="mode-info">Loading: <span class="loading">controls...<span></p>
 			</div>
 			`
 	} else {
+		const datesObj = { dates : crucialDatesArr(roverObj.manifest) };
+		// drop down with dates
+		const dateSelect = createDateSelect(datesObj.dates, 'dateSelect');
 		return  `
 		<div class="main">
+			${dateSelect}
 			${roverGallery(roverObj.galleries)}
 		</div>
-	  `
+		`
 	}
 }
 
@@ -175,41 +206,36 @@ const roverGallery = (galleriesObj) => {
 	if(!galleriesObj){
 		// if the empty gallery object has not been created yet for this rover, go ahead and add it to the roversData
 		setRoverGalleryObj(store);
+		return `
+			<p class="mode-info">Loading: <span class="loading">data...<span></p>
+			`
 	} else {
 		// important: latest images always need to be loaded first as this is the trigger on the server to fetch json data for the other dates too.
-		let galleryId = 'latest'; // Initital value
-		// needs to be replaced with a function returning the drop down value
-		const dateSelect = selectDropdown(['1', '2', '3', '4', '5', 'latest'], 'dateSelect', 'Pick Date');
-
+		let galleryId = store.selectedDate; // get current date selection
 
 		if( !galleriesObj[galleryId] ) {
 			getRoverPhotos(store, galleryId);
-			return 'loading gallery...';
+			return `
+			<p class="mode-info">Loading: <span class="loading">cameras...<span></p>
+			`
 		} else {
 			let gallery = galleriesObj[galleryId];
-			return  `
-				${dateSelect}
-				<div class="date-info">TODO basic info, like weather based on date</div>
-				<div class="gallery">
-		    	<ul class="filters"> ${roverCams(gallery)}</ul>
-		    	<div id="imageGallery">
-		    		${roverImageViewer(gallery)}
-		    	</div>
-		    </div>
-		  `
+			if(gallery.photos.length > 0){
+				return  `
+					<div class="gallery">
+						<p class="mode-info">Images available: ${gallery.photos.length} - Cameras ready for activation</p>
+						<div id="imageGallery">
+
+							${roverImageViewer(gallery)}
+						</div>
+					</div>
+				`
+			} else {
+				// sometimes there are no images for a specific date (Spirit Y5) - error handling
+				return `<p class="mode-info error">No images available for this date - pick a new milestone.</p>`
+			}
 		}
 	}
-}
-
-// Rover image galleries
-const roverCams = (gallery) => {
-	// map for cam name only
-	// filter unique names (The indexOf method returns the first index it finds of the provided element)
-	return gallery.photos
-		.map(photo => photo.camera.name)
-		.filter( (value, index, array) => array.indexOf(value) === index )
-		.map(cam => `<li class="camera ${cam}"><span class="btn">${cam}</span></li>`)
-		.join('');
 }
 
 // Gallery
@@ -217,49 +243,67 @@ const roverImageViewer = (gallery) => {
 		return getCameraGalleries(gallery.photos)
 }
 
-// ------------------------------------------------------  Helper Functions
+// =======================================  Helper Functions  ==========================
 
+// capitalize - useful for lowercase identifiers
 const capitalize = (word) => {
 	return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
 }
 
+// using variable as object key
+const newObject = (key, value) => {
+	obj = {[key] : value};
+	return obj;
+}
+
+// Galleries by camera
+// -------------------
 const getCamerasArray = (photosArr) => {
-	return photosArr.map(photo => photo.camera.name).filter( (value, index, array) => array.indexOf(value) === index );
+
+	const camArray = photosArr.map(photo => photo.camera);
+	const key = 'name';
+	const uniqueCams = [...new Map(camArray.map(item => [item[key], item])).values()];
+
+	return uniqueCams;
 }
 
 // creating the inner HTML for the gallery from photos objects
-const imageDataToHTML = (photosArr, listName = "list") => {
+const imageDataToHTML = (photosArr, camera) => {
 	const imageListItems = photosArr.map(photo => `<li class="image"><img src="${photo.img_src}" alt="Photo taken by ${photo.camera.name}"></li>`).join('');
-	return `<ul class="${listName}">${imageListItems}</ul>`;
+	return `<div class="gallery-wrap ${camera.name}"><div class="camera"><span class="btn">${camera.name}</span><h3>${camera.full_name}, ID: ${camera.id} Images: ${photosArr.length}</h3></div><div class="image-slider"><div class="big-img"></div><ul>${imageListItems}</ul></div></div>`;
 }
 
+// just for better readability of code - an extra function to filter by camera
 const filterByCamera = (photosArr, camera) => {
 	return photosArr.filter( photo => photo.camera.name === camera);
 }
 
+// finally the function using all above functions and returning the html for image sets
 const getCameraGalleries = (photosArr) => {
 	const camerasArr = getCamerasArray(photosArr);
-	let cameraGallery = camerasArr.map(camera => imageDataToHTML(filterByCamera(photosArr, camera), camera)).join('');
+	let cameraGallery = camerasArr.map(camera => imageDataToHTML(filterByCamera(photosArr, camera.name), camera )).join('');
 	return cameraGallery;
 }
 
-// --------- Nested Store Object Data:
+// Adding to nested Store Object Data
+// ----------------------------------
+
 // store rover manifests and photos in the store roversData object, to avoid repeat API calls
 const addToRoverObject = (subobject, currRoverSlug, roversData) => {
-	// we keep all existing data and add the manifest object to the rover object
- 	if(typeof subobject === 'object' && subobject !== null){
- 		return Object.assign(roversData, {
+	// we keep all existing data and add the manifest and dates objects to the rover object
+	if(typeof subobject === 'object' && subobject !== null){
+		return Object.assign(roversData, {
 			[currRoverSlug] : Object.assign(roversData[currRoverSlug], subobject)
 		});
- 	}
+	}
 }
+
 // same with photos
+// nesting one level deeper for adding photo sets to galleries object
 const addToRoverSubobject = (subobject, currRoverSlug, roversData, subkey) => {
 	// we keep all existing data and add the manifest or gallery object to the rover object
 	let parent = store.roversData[currRoverSlug];
 	target = parent.galleries;
-	console.log('galleries: ');
-	console.log(parent.galleries);
 	return Object.assign(roversData, {
 		[currRoverSlug] : Object.assign(parent, {
 			[subkey] : Object.assign(parent[subkey], subobject)
@@ -267,23 +311,33 @@ const addToRoverSubobject = (subobject, currRoverSlug, roversData, subkey) => {
 	});
 }
 
+// allowing filtering of cameras via button and html classes
 const filter = (event) => {
-	let button = event.target;
-	let filteredEl = document.getElementById("imageGallery").getElementsByClassName(button.innerHTML)[0];
-	if(filteredEl.length > 0){
-		if(filteredEl.classList.contains("active")){
-			filteredEl.classList.remove("active");
-			button.classList.remove("active");
-		} else {
-			filteredEl.classList.add("active");
-			button.classList.add("active");
+	let clickedEl = event.target;
+	// if we have an image we want to show this full size in a container above
+	if(clickedEl.tagName == 'IMG'){
+		const bigImg = clickedEl.cloneNode(true);
+		const wrapper = clickedEl.closest('.image-slider').getElementsByClassName('big-img')[0];
+		wrapper.innerHTML = ''; // clear from previous content
+		wrapper.appendChild(bigImg); // append clicked image
+	} else {
+		let filteredEl = document.getElementById("imageGallery").getElementsByClassName(clickedEl.innerHTML)[0];
+		if(filteredEl){
+			if(filteredEl.classList.contains("active")){
+				filteredEl.classList.remove("active");
+				clickedEl.classList.remove("active");
+			} else {
+				filteredEl.classList.add("active");
+				clickedEl.classList.add("active");
+			}
 		}
 	}
 }
 
-const addFilters = (className) => {
+const addClickListener = (className) => {
 	let htmlElements = document.querySelectorAll(`.${className}`);
 	htmlElements.forEach(el => {
+		el.style.cursor = "pointer";
 		el.addEventListener("click", () => { filter(event) }, false);
 	});
 }
@@ -293,12 +347,8 @@ const addSelectListener = (selectId) => {
 	selectNode.value = store.selectedRover; // as this is part of the updated dashboard we need to keep setting this
 	selectNode.addEventListener('change', (event) => {
 		updateStore(store, { selectedRover : selectNode.value })
+		updateStore(store, { selectedDate : 'latest' })
 	})
-}
-
-const newObject = (key, value) => {
-  obj = {[key] : value};
-  return obj;
 }
 
 const setRoverGalleryObj = (state) => {
@@ -307,26 +357,68 @@ const setRoverGalleryObj = (state) => {
 	updateStore(store, { roversData : addToRoverObject(galleries, selectedRover, roversData) })
 }
 
+// higher order function for changing dates
+const addtoDate = (dmy) => {
+		return (orignalDate, number)=> {
+				let date = new Date(orignalDate);
+				const year = date.getFullYear();
+				const month = date.getMonth();
+				const day = date.getDate();
+				switch(dmy) {
+					case 'year':
+						date.setFullYear(parseInt(year + number));
+						break;
+					case 'month':
+							 date.setMonth(parseInt(month + number));
+						break;
+					case 'week':
+						date.setDate(parseInt(day + (number*7)));
+						break;
+					case 'day':
+						date.setDate(parseInt(day + number));
+						break;
+				}
+				return date.toISOString().slice(0,10);
+		}
+}
+
+const addDays = addtoDate('day');
+const addWeeks = addtoDate('week');
+const addMonths = addtoDate('month');
+const addYears = addtoDate('year');
+
 const crucialDatesArr = (manifest) => {
-  const fullYears = Math.floor(parseInt(manifest.max_sol) / 355);
-  console.log(manifest.max_sol);
-  console.log('full Years on Mars' + fullYears);
-  if(fullYears > 0){
-  	console.log('rover has been there for more than a year!')
-	  return new Array(fullYears+1).fill('').map((item, index) => {
-	  	let photoData;
-	      if(index === 0){
-	      		photoData = manifest.photos[index + 1];
-	          return photoData.earth_date;
-	      } else {
-	      	photoData = manifest.photos[index];
-	          return photoData.earth_date;
-	      }
-	  })
+	const landingDate = new Date(manifest.landing_date);
+	const fullYears = Math.floor(parseInt(manifest.max_sol) / 356);
+	const fullMonths = Math.floor(parseInt(manifest.max_sol) / (356 / 12));
+	const fullWeeks = Math.floor(parseInt(manifest.max_sol) / 7);
+	let array = [{ id : 0, label : 'first images', earth_date : manifest.photos[0].earth_date }];
+	let keyDates;
+
+	if(fullYears > 0){
+		keyDates = new Array(fullYears).fill('').map((item, index) => {
+			let label = 'Year ' + parseInt(index + 1) + ' Milestone';
+			return { id : parseInt(index + 1), label : label, earth_date : addYears(landingDate, index + 1) };
+		})
+	} else if(fullMonths > 0){
+		keyDates = new Array(fullMonths).fill('').map((item, index) => {
+			let label = 'Month' + parseInt(index + 1) + ' Milestone';
+			return { id : parseInt(index + 1), label : label, earth_date : addMonths(landingDate, index + 1) };
+		})
+	} else if(fullWeeks > 0){
+		keyDates = new Array(fullWeeks).fill('').map((item, index) => {
+			let label = 'Week' + parseInt(index + 1) + ' Milestone';
+			return { id : parseInt(index + 1), label : label, earth_date : addWeeks(landingDate, index + 1) };
+		})
 	} else {
-		console.log('rover has been there less than a year.')
-		return [`rover has been on Mars for ${manifest.max_sol} days`];
+		keyDates = new Array(manifest.max_sol).fill('').map((item, index) => {
+			let label = 'Day ' + parseInt(index + 1);
+			return { id : parseInt(index + 1), label : label, earth_date : addDays(landingDate, index + 1) };
+		})
 	}
+	const allDates = array.concat(keyDates);
+	allDates.push({ id : 'latest', label : 'most recent', earth_date : manifest.max_date });
+	return allDates;
 }
 
 // ------------------------------------------------------  API CALLS
@@ -338,19 +430,18 @@ const getRoverData = (dataSlug) => {
 		let fetchURL = `/${selectedRover}/${dataSlug}`;
 		if(dataSlug === 'photos') {
 			fetchURL = `/${selectedRover}/${dataSlug}/${bd}`
-	    fetch(fetchURL)
-        .then(res => res.json())
-        .then(dataObj => dataObj )
-        .then(dataObj => updateStore(store, {
-        	roversData : addToRoverSubobject( newObject(bd, dataObj), selectedRover, roversData, 'galleries')
-        }))
+			fetch(fetchURL)
+				.then(res => res.json())
+				.then(dataObj => dataObj )
+				.then(dataObj => updateStore(store, {
+					roversData : addToRoverSubobject( newObject(bd, dataObj), selectedRover, roversData, 'galleries')
+				}))
 		} else {
-	    fetch(fetchURL)
-        .then(res => res.json())
-        .then(dataObj => updateStore(store, { roversData : addToRoverObject(dataObj, selectedRover, roversData) }))
-        .then(console.log('done fetching data'))
-      }
-    }
+			fetch(fetchURL)
+				.then(res => res.json())
+				.then(dataObj => updateStore(store, { roversData : addToRoverObject(dataObj, selectedRover, roversData) }))
+			}
+		}
 }
 
 const getRoverPhotos = getRoverData('photos');

@@ -2,72 +2,138 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/assets/stylesheets/resets.css">
-    <link rel="stylesheet" type="text/css" href="/assets/stylesheets/main.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;400;500;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/resets.css">
+	<link rel="stylesheet" type="text/css" href="/assets/stylesheets/main.css">
 </head>
 
 <body>
-    <main id="app">
-        <div id="hero">
-            <p class="instructions center-container">start scrolling to land</p>
-            <div id="mars-graphic">
-                <?xml version="1.0" encoding="utf-8"?>
-                <!-- Generator: Adobe Illustrator 25.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-                <svg version="1.1" id="mars" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                     viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">
-                    <circle style="fill:#CE4205;" cx="250" cy="250" r="250"/>
-                    <g id="texture-group">
-                        <defs>
-                            <circle id="clipping-path" cx="250" cy="250" r="250"/>
-                        </defs>
-                        <clipPath id="clipping-path_1_">
-                            <use xlink:href="#clipping-path"  style="overflow:visible;"/>
-                        </clipPath>
-                        <g id="clip-group-texture" style="clip-path:url(#clipping-path_1_);">
+	<main id="app">
+		<div id="hero">
+			<p class="instructions center-container">start scrolling to land</p>
+			<div id="mars-graphic">
+				<!-- Generator: Adobe Illustrator 25.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+				<svg version="1.1" id="space" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+					 viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">
+					<defs>
+						<pattern  x="-10" y="-5" width="180" height="140" patternUnits="userSpaceOnUse" id="stars" viewBox="0 -140 180 140" style="overflow:visible;">
+						<g>
+							<rect y="-140" style="fill:none;" width="180" height="140"/>
+							<circle cx="46.8" cy="-138.1" r="0.4"/>
+							<circle cx="95.8" cy="-51" r="0.4"/>
+							<circle cx="72.1" cy="-69" r="0.3"/>
+							<circle cx="159.6" cy="-29.4" r="0.4"/>
+							<circle cx="101.8" cy="-68.9" r="0.5"/>
+							<circle cx="132.9" cy="-68.7" r="0.4"/>
+							<circle cx="74.5" cy="-38.2" r="1.4"/>
+							<circle cx="178.7" cy="-4.7" r="0.5"/>
+							<circle cx="105.9" cy="-11.8" r="0.2"/>
+							<circle cx="160" cy="-102.7" r="0.4"/>
+							<circle cx="19.8" cy="-119.7" r="1.4"/>
+							<circle cx="151.4" cy="-21.3" r="1.2"/>
+							<circle cx="28" cy="-26.5" r="0.3"/>
+							<circle cx="113.4" cy="-20.1" r="1.2"/>
+							<circle cx="86.3" cy="-102.7" r="1.1"/>
+							<circle cx="126.3" cy="-52.7" r="1.6"/>
+							<circle cx="126.3" cy="-122.7" r="1.7"/>
+							<circle cx="117.2" cy="-88.6" r="0.5"/>
+							<circle cx="96.9" cy="-3.5" r="0.3"/>
+							<circle cx="23.6" cy="-3.6" r="1.3"/>
+							<circle cx="71.3" cy="-74.1" r="0.1"/>
+							<circle cx="17.3" cy="-49.6" r="0.2"/>
+							<circle cx="5.9" cy="-65.3" r="1.3"/>
+							<circle cx="80.4" cy="-2.9" r="1.3"/>
+							<circle cx="166.2" cy="-84.2" r="0.7"/>
+							<circle cx="23.4" cy="-43.9" r="0.5"/>
+							<circle cx="130.6" cy="-69.6" r="0.2"/>
+							<circle cx="86.9" cy="-96.3" r="0.2"/>
+							<circle cx="173.8" cy="-119.4" r="0.1"/>
+							<circle cx="59.3" cy="-115.3" r="0.2"/>
+							<circle cx="129.4" cy="-59.6" r="0.3"/>
+							<circle cx="40.6" cy="-117.8" r="0.1"/>
+							<circle cx="115.1" cy="-84.6" r="1.2"/>
+							<circle cx="18.6" cy="-107.7" r="0.4"/>
+							<circle cx="96" cy="-64.9" r="0.1"/>
+							<circle cx="73.3" cy="-100.9" r="0.2"/>
+							<circle cx="140.9" cy="-8.7" r="0.9"/>
+							<circle cx="41.9" cy="-63.9" r="0.4"/>
+							<circle cx="25.8" cy="-111.6" r="0.2"/>
+							<circle cx="12.3" cy="-111.5" r="0.4"/>
+							<circle cx="108.5" cy="-130.4" r="0.8"/>
+							<circle cx="54.2" cy="-102.6" r="0.9"/>
+							<circle cx="54.7" cy="-82.9" r="1.4"/>
+							<circle cx="24.5" cy="-59.3" r="0.2"/>
+							<circle cx="100" cy="-128.3" r="0.2"/>
+							<circle cx="147.6" cy="-93" r="0.8"/>
+							<circle cx="135.4" cy="-101.8" r="0.1"/>
+							<circle cx="57.4" cy="-113.1" r="0.1"/>
+							<circle cx="159.6" cy="-18.2" r="1.4"/>
+							<circle cx="113.5" cy="-123.4" r="0.7"/>
+							<circle cx="1.9" cy="-94.3" r="1.1"/>
+							<circle cx="162.9" cy="-97.8" r="0.8"/>
+						</g>
+					</pattern>
+											<linearGradient id="gradient-dark_1_" gradientUnits="userSpaceOnUse" x1="33.4947" y1="375.0887" x2="466.5246" y2="125.0795" gradientTransform="matrix(0.9891 0.1472 0.1472 -0.9891 -34.0071 460.547)">
+							<stop  offset="0.501" style="stop-color:#5F1635;stop-opacity:0"/>
+							<stop  offset="1" style="stop-color:#4C0C3A"/>
+						</linearGradient>
+						<circle id="gradient-dark" style="fill:url(#gradient-dark_1_);" cx="250.1" cy="250" r="250"/>
+						<linearGradient id="gradient-light_2_" gradientUnits="userSpaceOnUse" x1="33.396" y1="375.0743" x2="466.4255" y2="125.0644" gradientTransform="matrix(0.9891 0.1472 0.1472 -0.9891 -34.0071 460.547)">
+							<stop  offset="0" style="stop-color:#FFBF8B"/>
+							<stop  offset="0.535" style="stop-color:#FEB47C;stop-opacity:0"/>
+						</linearGradient>
+					</defs>
+					<rect x="0" y="0" width="3000" height="3000" fill="url(#stars)"></rect>
+					<g id="mars">
+						<circle style="fill:#CE4205;" cx="250" cy="250" r="250"/>
+							<g id="texture-group">
+								<defs>
+									<circle id="clipping-path" cx="250" cy="250" r="250"/>
+								</defs>
+								<clipPath id="clipping-path_1_">
+									<use xlink:href="#clipping-path"  style="overflow:visible;"/>
+								</clipPath>
+								<g id="clip-group-texture" style="clip-path:url(#clipping-path_1_);">
 
-                                <image style="overflow:visible;enable-background:new    ;" width="2000" height="1000" id="texture" xlink:href="/assets/images/texture.gif"  transform="matrix(0.75 0 0 0.75 -250 0)">
-                            </image>
-                        </g>
-                    </g>
-                    <linearGradient id="gradient-dark_1_" gradientUnits="userSpaceOnUse" x1="33.4947" y1="375.0887" x2="466.5246" y2="125.0795" gradientTransform="matrix(0.9891 0.1472 0.1472 -0.9891 -34.0071 460.547)">
-                        <stop  offset="0.501" style="stop-color:#5F1635;stop-opacity:0"/>
-                        <stop  offset="1" style="stop-color:#4C0C3A"/>
-                    </linearGradient>
-                    <circle id="gradient-dark" style="fill:url(#gradient-dark_1_);" cx="250.1" cy="250" r="250"/>
-                    <linearGradient id="gradient-light_2_" gradientUnits="userSpaceOnUse" x1="33.396" y1="375.0743" x2="466.4255" y2="125.0644" gradientTransform="matrix(0.9891 0.1472 0.1472 -0.9891 -34.0071 460.547)">
-                        <stop  offset="0" style="stop-color:#FFBF8B"/>
-                        <stop  offset="0.535" style="stop-color:#FEB47C;stop-opacity:0"/>
-                    </linearGradient>
-                    <circle id="gradient-light_1_" style="fill:url(#gradient-light_2_);" cx="250" cy="250" r="250"/>
-                </svg>
-            </div>
-        </div>
-        <section id="intro">
-            <div class="wrapper-inner">
-                <h1 class="app-title">Mars Explorer</h1>
+										<image style="overflow:visible;enable-background:new    ;" width="2000" height="1000" id="texture" xlink:href="/assets/images/texture.gif"  transform="matrix(0.75 0 0 0.75 -250 0)">
+									</image>
+								</g>
+							</g>
 
-                <p class="intro-text">
-                    The goal of the Mars Exploration Program is to explore Mars and to provide a continuous flow of scientific information and discovery through a carefully selected series of robotic orbiters, landers and mobile laboratories interconnected by a high-bandwidth Mars/Earth communications network.
-                </p>
-                <p>
-                    Now you can join the mission and explore Mars yourself via real time rover data. Enter the dashboard and start gathering data using one of four rovers, two of which are currently active. Chose a rover, date and rover camera to gather image data and find out facts about each rover and their unique missions. Then go ahead and explore some more with Nasa...
-                </p>
-                <a id="access-dashboard" class="btn" href="#dashboard">Enter Dashboard</a>
-            </div>
-        </section>
+						<circle id="gradient-light_1_" style="fill:url(#gradient-light_2_);" cx="250" cy="250" r="250"/>
+					</g>
+				</svg>
+			</div>
+		</div>
+		<section id="intro">
+			<div class="wrapper-inner">
+				<h1 class="app-title">Mars Explorer</h1>
 
-        <div id="dashboard">
-        </div>
-    </main>
-    <footer>copyright etc info her</footer>
+				<p class="intro-text">
+					The goal of the Mars Exploration Program is to explore Mars and to provide a continuous flow of scientific information and discovery through a carefully selected series of robotic orbiters, landers and mobile laboratories interconnected by a high-bandwidth Mars/Earth communications network.
+				</p>
+				<p>
+					Enter the dashboard, pick a rover, date and camera and explore real images from Mars as well as finding out facts about each rover and their unique mission.
+				</p>
+				<a id="access-dashboard" class="btn" href="#dashboard">Enter Dashboard</a>
+			</div>
+		</section>
+
+		<div id="dashboard">
+		</div>
+	</main>
+	<footer>
+		<div class="info">MarsExplorer was created by <a href="https://jbeadle.de">JB Code + Design</a> as part of the Udacity JS Nanodegree</div>
+
+		<div class="copyright">All information, images and <a href="https://api.nasa.gov/">API data</a> by NASA / <a href="https://www.jpl.nasa.gov/">JPL</a></div>
+	</footer>
 </body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/immutable/3.8.2/immutable.min.js"></script>
-    <script src="/client.js"></script>
-    <script src="/assets/js/styling.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/immutable/3.8.2/immutable.min.js"></script>
+	<script src="/client.js"></script>
+	<script src="/assets/js/styling.js"></script>
 </html>
