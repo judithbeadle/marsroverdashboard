@@ -1,8 +1,12 @@
-# Functional Programming with Javascript
+# Mars Explorer
+## Get to know Mars and the NASA Mars rovers in this an interactive NASA API viewer
 
-## Instructions
+### Part of the Intermediate Javascript Nanodegree from Udacity
 
-### Big Picture
+![Startscreen](mars_start.png)
+![Gallery View](mars_rover-cams.png)
+
+## Big Picture
 
 A Mars rover dashboard that consumes the NASA API.
 
