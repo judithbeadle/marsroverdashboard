@@ -157,7 +157,7 @@ const roverWidget = (roverObj) => {
 			// get the different values and build up the html with those
 			return (`
 				<div class="image-wrap status-${status}">
-					<img src="/assets/images/rovers/${name}.jpg" alt="${staticRoverInfo.photo.alt}">
+					<img src="/assets/images/rovers/${name.toLowerCase()}.jpg" alt="${staticRoverInfo.photo.alt}">
 				</div>
 				<h2>${name}</h2>
 				<ul class="key-facts">
