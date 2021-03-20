@@ -88,6 +88,7 @@ h1, h2, h3, h4, h5, h6, p, ol, ul, li {
 .center-container {
 	height: 100%;
 	width: 100%;
+	display:-webkit-flex;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -140,7 +141,7 @@ p.instructions::after {
 
 #app > *,
 #mars-graphic {
-	flex: 1;
+	flex: 1 0 auto;
 	position: relative;
 }
 
@@ -159,6 +160,7 @@ p.instructions::after {
 }
 
 #mars-graphic {
+	display:-webkit-flex;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -244,6 +246,7 @@ p.instructions::after {
 }
 
 #app {
+	display:-webkit-flex;
 	display: flex;
 	flex-direction: column;
 }
@@ -273,6 +276,7 @@ ul.key-facts {
 }
 
 .key-facts li {
+	display:-webkit-flex;
 	display: flex;
 	justify-content: space-between;
 	padding: 0.5em 0;
@@ -418,10 +422,12 @@ select,
 }
 
 #imageGallery > .gallery-wrap.active ul {
+	display:-webkit-flex;
 	display: flex;
 }
 
 .gallery-wrap .camera {
+	display:-webkit-flex;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -487,6 +493,7 @@ footer {
 	background-color: var(--color__purple-dark);
 	color: var(--color__orange-light);
 	font-size: 0.875rem;
+	display:-webkit-flex;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -502,6 +509,7 @@ footer {
 		font-size: 1.5em;
 	}
 	#dashboard {
+		display:-webkit-flex;
 		display: flex;
 		justify-content: space-between;
 	}
@@ -509,7 +517,7 @@ footer {
 		width: 20em;
 	}
 	#dashboard .main {
-		flex: 3;
+		flex: 3 0 auto;
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
