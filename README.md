@@ -6,6 +6,8 @@
 ![Startscreen](mars_start.png)
 ![Gallery View](mars_rover-cams.png)
 
+See it work here: https://nasa-mars-dashboard.herokuapp.com/
+
 ## Big Picture
 
 A Mars rover dashboard that consumes the NASA API.
