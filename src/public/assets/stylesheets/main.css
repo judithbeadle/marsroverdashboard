@@ -422,13 +422,12 @@ select,
 }
 
 #imageGallery > .gallery-wrap.active ul {
-	display:-webkit-flex;
 	display: flex;
 }
 
 .gallery-wrap .camera {
-	display:-webkit-flex;
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 	padding: calc(var(--app__gutter) / 2);
@@ -509,7 +508,6 @@ footer {
 		font-size: 1.5em;
 	}
 	#dashboard {
-		display:-webkit-flex;
 		display: flex;
 		justify-content: space-between;
 	}
@@ -517,8 +515,7 @@ footer {
 		width: 20em;
 	}
 	#dashboard .main {
-		flex: 3 0 auto;
-		display: flex;
+		flex: 3;
 		flex-direction: column;
 		height: 100vh;
 		overflow: scroll;
