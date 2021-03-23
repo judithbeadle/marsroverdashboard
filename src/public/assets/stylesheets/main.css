@@ -352,7 +352,7 @@ a {
 
 select {
 	appearance: none;
-	background-color: transparent;
+	background-color: var(--color__magenta);
 	border: none;
 	padding: 0.75em 1em;
 	margin: 0;
